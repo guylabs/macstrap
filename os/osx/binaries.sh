@@ -29,25 +29,18 @@ brew install homebrew/dupes/grep
 
 # Install other useful binaries
 binaries=(
-  graphicsmagick
-  boot2docker
-  webkit2png
-  phantomjs
-  rename
-  zopfli
-  ffmpeg
-  python
-  mongo
-  sshfs
-  trash
-  node
-  tree
-  hub
   ack
+  elasticsearch
   git
-  hub
-  fig
-  go
+  gradle
+  graphicsmagick
+  jenv
+  node
+  postgresql
+  rename
+  sshfs
+  tree
+  wget
 )
 
 # Install the binaries
@@ -62,9 +55,6 @@ fi
 if test ! $(which spot); then
   curl -L https://raw.githubusercontent.com/rauchg/spot/master/spot.sh -o /usr/local/bin/spot && chmod +x /usr/local/bin/spot
 fi
-
-# Create a $GOPATH
-mkdir -p $HOME/Go
 
 # Remove outdated versions from the cellar
 brew cleanup
