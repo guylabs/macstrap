@@ -94,7 +94,7 @@ updatedots() {
   echo "updating dots..."
   mkdir -p /tmp/dots \
     && cd /tmp/dots \
-    && curl -L# https://github.com/matthewmueller/dots/archive/master.tar.gz | tar zx --strip 1 \
+    && curl -L# https://github.com/guylabs/dots/archive/master.tar.gz | tar zx --strip 1 \
     && ./install.sh \
     && echo "updated dots to $(dots --version)."
   exit
