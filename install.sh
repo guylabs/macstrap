@@ -20,8 +20,3 @@ fi
 
 # symlink dots
 ln -s "$lib/dots/dots.sh" "$bin/dots"
-
-# Ubuntu-only: Change from dash to bash
-if [ "$BASH_VERSION" = '' ]; then
-  sudo echo "dash    dash/sh boolean false" | debconf-set-selections ; dpkg-reconfigure --frontend=noninteractive dash
-fi
