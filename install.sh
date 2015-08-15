@@ -4,6 +4,8 @@ set -eu
 # echo banner
 source banner.sh
 
+echo -e "Installing macstrap ..."
+
 # paths
 dirname=$(pwd)
 lib="/usr/local/lib"
