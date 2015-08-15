@@ -7,7 +7,7 @@ Bootstrapping library for OS X.
 One-liner:
 
 ```
-(mkdir -p ~/.macstrap && cd ~/.macstrap && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 && sh ./install.sh)
+mkdir -p /tmp/macstrap && cd /tmp/macstrap && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 && sh ./install.sh
 ```
 
 ## Mac OS X
