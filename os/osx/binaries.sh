@@ -7,7 +7,7 @@ set -eu
 
 # Check for Homebrew
 if test ! $(which brew); then
-  echo "Installing homebrew..."
+  echo "Installing homebrew ..."
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
@@ -30,26 +30,29 @@ brew install homebrew/dupes/grep
 # Install other useful binaries
 binaries=(
   ack
+  atom
   elasticsearch
+  fish
   git
   gradle
   graphicsmagick
   jenv
+  mackup
   node
   postgresql
   rename
   sshfs
+  tomcat
   tree
   wget
 )
 
-# Install the binaries
-brew install ${binaries[@]}
+# Load the additional binaries from the config file and merge it together with the default binaries
+source $config
+binariesToInstall=(`for item in "${binaries[@]}" "${additionalBinaries[@]}" ; do echo "$item" ; done | sort -du`)
 
-# Add osx specific command line tools
-if test ! $(which subl); then
-  ln -s "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
-fi
+# Install the binaries
+brew install ${binariesToInstall[@]}
 
 # Install spot
 if test ! $(which spot); then

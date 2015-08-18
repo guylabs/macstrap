@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eu
-version="0.1.0"
+source version.sh
 
 # macstrap(1) main
 main() {
@@ -9,6 +9,7 @@ main() {
   export dirname=$(dirname $(realpath $0))
   export lib="$dirname/lib"
   export os="$dirname/os"
+  export config="$HOME/.macstrap/macstrap.cfg"
 
   if [ $# -eq 0 ]; then
     # if no argument is present show the usage
@@ -26,13 +27,13 @@ main() {
         exit
         ;;
       reload )
-        echo "reload bash profile"
-        ###source "$HOME/.bash_profile"
+        echo "Reloading the $HOME/.bash_profile ..."
+        source "$HOME/.bash_profile"
         exit
         ;;
       boot )
-        echo "boot osx"
-        ###sh "$os/osx/index.sh"
+        echo "Bootstrapping OS X ..."
+        sh "$os/osx/index.sh"
         exit
         ;;
       update )
@@ -77,14 +78,14 @@ EOF
 update() {
   if [ $# -eq 0 ]; then
     # if no argument is present update the OS X
-    echo "update osx test"
-    ###sh "$os/osx/update.sh"
+    echo "Updating OS X ..."
+    sh "$os/osx/update.sh"
   else
     if [ $1 = "macstrap" ]; then
-      echo "update macstrap"
-      ###updatemacstrap
+      echo "Updating macstrap ..."
+      updatemacstrap
     else
-      echo "Error: Unknown update argumet '$1'"
+      echo -e "\033[0;31mError: Unknown update argumet '$1'\033[0m"
       exit
     fi
   fi
@@ -92,7 +93,6 @@ update() {
 
 # update macstrap(1) via git clone
 updatemacstrap() {
-  echo "Updating macstrap ..."
   mkdir -p /tmp/macstrap \
     && cd /tmp/macstrap \
     && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 \

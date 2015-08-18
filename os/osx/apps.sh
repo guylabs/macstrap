@@ -5,139 +5,76 @@ set -eu
 # Application installer (via brew-cask)
 #
 
+# Check for Homebrew
+if test ! $(which brew); then
+  echo "Installing homebrew ..."
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
 # Apps
 apps=(
-  shimo
   1password
   alfred
-  dropbox
-  google-chrome
-  qlcolorcode
-  screenflick
-  slack
-  transmit
-  appcleaner
-  firefox
-  hazel
-  qlmarkdown
-  seil
-  spotify
-  vagrant
-  arq
-  flash
-  iterm2
-  qlprettypatch
-  shiori
-  sublime-text3
-  virtualbox
   atom
-  flux
-  mailbox
-  qlstephen
-  sketch
-  tower
-  vlc
-  cloudup
-  nvalt
-  quicklook-json
+  cyberduck
+  dropbox
+  firefox
+  google-chrome
+  intellij-idea
+  iterm2
+  java
   skype
   transmission
-  apikitchen
-  mamp
+  virtualbox
+  vlc
 )
 
-# fonts
-fonts=(
-  font-m-plus
+# Casks
+casks=(
   font-clear-sans
+  font-m-plus
   font-roboto
 )
 
 # Atom packages
-atom=(
-  advanced-railscasts-syntax
-  atom-beautify
-  cmd-9
-  color-picker
-  css-comb
-  docblockr
-  easy-motion
-  editor-stats
-  emmet
-  fancy-new-file
-  file-icons
-  git-history
-  highlight-selected
-  image-view
-  inc-dec-value
-  key-peek
-  language-jade
-  linter
-  markdown-preview
-  merge-conflicts
-  neutron-ui
-  npm-install
-  react
-  vim-mode
-  zentabs
-)
+atomPackages=()
 
 # Specify the location of the apps
 appdir="/Applications"
 
-# Check for Homebrew
-if test ! $(which brew); then
-  echo "Installing homebrew..."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-fi
+# Install homebrew-cask
+echo "Installing homebrew cask ..."
+brew tap phinze/homebrew-cask
+brew install brew-cask
 
-main() {
+# Tap alternative versions
+brew tap caskroom/versions
 
-  # Ensure homebrew is installed
-  homebrew
+# Tap the fonts
+brew tap caskroom/fonts
 
-  # Install homebrew-cask
-  echo "installing cask..."
-  brew tap phinze/homebrew-cask
-  brew install brew-cask
+# Load the additional apps/casks/atom packages from the config file and merge it together with the default apps/casks/atom packages
+source $config
+appsToInstall=(`for item in "${apps[@]}" "${additionalApps[@]}" ; do echo "$item" ; done | sort -du`)
+casksToInstall=(`for item in "${casks[@]}" "${additionalCasks[@]}" ; do echo "$item" ; done | sort -du`)
+atomPackagesToInstall=(`for item in "${atomPackages[@]}" "${additionalAtomPackages[@]}" ; do echo "$item" ; done | sort -du`)
 
-  # Tap alternative versions
-  brew tap caskroom/versions
+# Install apps
+echo -e "Installing apps to \033[1m$appdir\033[0m ..."
+brew cask install --appdir=$appdir ${appsToInstall[@]}
 
-  # Tap the fonts
-  brew tap caskroom/fonts
+# Install casks
+echo "Installing casks ..."
+brew cask install ${casksToInstall[@]}
 
-  # install apps
-  echo "installing apps..."
-  brew cask install --appdir=$appdir ${apps[@]}
+# Install atom packages
+echo "Installing atom packages ..."
+apm install ${atomPackagesToInstall[@]}
 
-  # install fonts
-  echo "installing fonts..."
-  brew cask install ${fonts[@]}
+# Link with alfred
+brew cask alfred link
 
-  # install atom plugins
-  echo "installing atom plugins..."
-  apm install ${atom[@]}
+# Remove outdated versions from the cellar
+brew cleanup
 
-  # link with alfred
-  alfred
-  cleanup
-}
-
-homebrew() {
-  if test ! $(which brew); then
-    echo "Installing homebrew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
-}
-
-alfred() {
-  brew cask alfred link
-}
-
-cleanup() {
-  brew cleanup
-}
-
-main "$@"
 exit 0

@@ -21,9 +21,9 @@ sh "$osx/apps.sh"
 
 # Symlink the profile
 if [[ ! -e "$HOME/.bash_profile" ]]; then
-  echo "symlinking: $osx/profile.sh => $HOME/.bash_profile"
   symlink "$osx/profile.sh" "$HOME/.bash_profile"
+  echo -e "Symlinked \033[1m$osx/profile.sh\033[0m => \033[1m$HOME/.bash_profile\033[0m"
   source $HOME/.bash_profile
 else
-  echo "$HOME/.bash_profile already exists. remove and run again."
+  echo -e "\033[1m$HOME/.bash_profile\033[0m already exists. Please remove it and bootstrap again."
 fi
