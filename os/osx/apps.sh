@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
-#
-# Application installer (via brew-cask)
-#
-
-# Check for Homebrew
-if test ! $(which brew); then
-  echo "Installing homebrew ..."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-fi
+# Update homebrew and homebrew cask
+brew update && brew upgrade brew-cask
 
 # Apps
 apps=(
@@ -42,17 +35,6 @@ atomPackages=()
 # Specify the location of the apps
 appdir="/Applications"
 
-# Install homebrew-cask
-echo "Installing homebrew cask ..."
-brew tap phinze/homebrew-cask
-brew install brew-cask
-
-# Tap alternative versions
-brew tap caskroom/versions
-
-# Tap the fonts
-brew tap caskroom/fonts
-
 # Load the additional apps/casks/atom packages from the config file and merge it together with the default apps/casks/atom packages
 source $config
 appsToInstall=(`for item in "${apps[@]}" "${additionalApps[@]}" ; do echo "$item" ; done | sort -du`)
@@ -76,5 +58,6 @@ brew cask alfred link
 
 # Remove outdated versions from the cellar
 brew cleanup
+brew cask cleanup
 
 exit 0
