@@ -20,14 +20,13 @@ brew install homebrew/dupes/grep
 # Install other useful binaries
 binaries=(
   ack
-  atom
   elasticsearch
-  fish
   git
   gradle
   graphicsmagick
   jenv
   mackup
+  maven
   node
   postgresql
   rename
@@ -37,12 +36,21 @@ binaries=(
   wget
 )
 
+globalNpmPackages=(
+  bower
+  grunt-cli
+)
+
 # Load the additional binaries from the config file and merge it together with the default binaries
 source $config
 binariesToInstall=(`for item in "${binaries[@]}" "${additionalBinaries[@]}" ; do echo "$item" ; done | sort -du`)
+globalNpmPackagesInstall=(`for item in "${globalNpmPackages[@]}" "${additionalGlobalNpmPackages[@]}" ; do echo "$item" ; done | sort -du`)
 
 # Install the binaries
 brew install ${binariesToInstall[@]}
+
+# Install global npm packages
+npm install -g ${globalNpmPackagesInstall[@]}
 
 # Install spot
 if test ! $(which spot); then
