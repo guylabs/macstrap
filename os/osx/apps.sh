@@ -17,7 +17,6 @@ apps=(
   iterm2
   java
   skype
-  transmission
   virtualbox
   vlc
 )
@@ -27,6 +26,7 @@ casks=(
   font-clear-sans
   font-m-plus
   font-roboto
+  font-hack
 )
 
 # Atom packages

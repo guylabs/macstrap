@@ -19,7 +19,8 @@ main() {
     # run command
     case $1 in
       -v | --version )
-        echo $version
+        echo "macstrap ${version}"
+        mackup --version
         exit
         ;;
       -h | --help )
@@ -42,6 +43,14 @@ main() {
         else
           update
         fi
+        exit
+        ;;
+      backup )
+        echo "mackup backup"
+        exit
+        ;;
+      restore )
+        echo "mackup restore"
         exit
         ;;
       *)
@@ -70,6 +79,8 @@ usage() {
     reload                  Reload the .bash_profile
     boot                    Bootstrap OS X
     update <macstrap>       Update OS X or macstrap
+    backup                  Backup the configurations with mackup
+    restore                 Restore the configurations with mackup
 
 EOF
 }
