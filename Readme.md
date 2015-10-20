@@ -22,7 +22,9 @@ The OS X build does the following:
 
 # License
 
-The macstrap is available under the MIT license.
+macstrap is available under the MIT license.
 
-(c) Matthew Mueller - https://github.com/matthewmueller/dots
+(c) Matthew Mueller - Original project (https://github.com/matthewmueller/dots)
+(c) Christopher Simpkins - Hack font (https://github.com/powerline/fonts/tree/master/Hack)
+(c) Ethan Schoonover - Solarized iTerm2 theme (https://github.com/altercation/solarized)
 (c) Modifications by Guy Brand

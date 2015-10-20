@@ -42,6 +42,11 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
   cp -rn "$lib/macstrap/conf/macstrap.cfg" "$conf/macstrap.cfg"
   echo -e "\t- Copied the skeleton macstrap configuration to \033[1m$conf/macstrap.cfg\033[0m"
 fi
+if [ ! -e "$conf/themes" ]; then
+  mkdir -p "$conf/themes"
+  cp -rn "$lib/macstrap/conf/themes/*" "$conf/themes/"
+  echo -e "\t- Copied the skeleton macstrap themes to \033[1m$conf/themes\033[0m"
+fi
 if [ ! -e "$HOME/.mackup.cfg" ]; then
   cp -rn "$lib/macstrap/conf/.mackup.cfg" "$HOME/.mackup.cfg"
   echo -e "\t- Copied the skeleton mackup configuration to \033[1m$HOME/.mackup.cfg\033[0m"
@@ -86,10 +91,10 @@ if test ! $(which mackup); then
 
   # prompt for the option to continue
   echo
-  echo -e "\033[1mPlease select how to continue\033[0m (you can always backup the configurations afterwards with macstrap):"
-  echo -e "[1] Back up the configurations now"
-  echo -e "[2] Do a dry run of the configurations backup"
-  echo -e "[3] Finish the installation of macstrap"
+  echo -e "\033[1mPlease select how to continue\033[0m (you can always backup the app configurations afterwards with macstrap):"
+  echo -e "[1] Back up the app configurations now"
+  echo -e "[2] Do a dry run of the app configurations backup"
+  echo -e "[3] Finish the installation of macstrap without backing up the app configurations"
   echo
   echo -n "Enter your decision: "
 

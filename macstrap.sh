@@ -2,7 +2,7 @@
 set -eu
 source version.sh
 
-# macstrap(1) main
+# macstrap main
 main() {
 
   # paths
@@ -38,11 +38,11 @@ main() {
         exit
         ;;
       update )
-        if [ $# -eq 2 ]; then
-          update $2
-        else
-          update
-        fi
+        update
+        exit
+        ;;
+      "update macstrap" )
+        update macstrap
         exit
         ;;
       backup )
@@ -77,10 +77,11 @@ usage() {
   Commands:
 
     reload                  Reload the .bash_profile
-    boot                    Bootstrap OS X
-    update <macstrap>       Update OS X or macstrap
-    backup                  Backup the configurations with mackup
-    restore                 Restore the configurations with mackup
+    boot                    Bootstrap OS X and install all configured apps, binaries etc.
+    update                  Update all apps, binaries etc. and all OS X app store applications
+    update macstrap         Update macstrap to the latest version
+    backup                  Backup the app configurations with mackup
+    restore                 Restore the app configurations with mackup
 
 EOF
 }
@@ -88,21 +89,18 @@ EOF
 # update OS X or macstrap
 update() {
   if [ $# -eq 0 ]; then
-    # if no argument is present update the OS X
-    echo "Updating OS X ..."
+    # if no argument is present update the apps, binaries and OS X app store applications
+    echo "Updating all apps, binaries etc. and the OS X app store applications ..."
     sh "$os/osx/update.sh"
   else
     if [ $1 = "macstrap" ]; then
       echo "Updating macstrap ..."
       updatemacstrap
-    else
-      echo -e "\033[0;31mError: Unknown update argumet '$1'\033[0m"
-      exit
     fi
   fi
 }
 
-# update macstrap(1) via git clone
+# update macstrap via git
 updatemacstrap() {
   mkdir -p /tmp/macstrap \
     && cd /tmp/macstrap \
