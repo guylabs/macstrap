@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -e
 
 # OSX for Hackers (Mavericks/Yosemite)
 # Source: https://gist.github.com/brandonb927/3195465
@@ -7,57 +7,53 @@ set -eu
 # Some things taken from here
 # https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
+# Show banner
+echo -e "#################################"
+echo -e "# Setting Mac OS X defaults ... #"
+echo -e "#################################"
+echo
+
 # Ask for the administrator password upfront
+echo -e "We need sudo right to set some Mac OS X defaults."
 sudo -v
 
 # Keep-alive: update existing `sudo` time stamp until `.osx` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-echo "This script will make your Mac awesome"
-
 ###############################################################################
 # General UI/UX
 ###############################################################################
 
-echo ""
-echo "Disabling OS X Gate Keeper"
-echo "(You'll be able to install any app you want from here on, not just Mac App Store apps)"
+echo -e "\t- Disabling OS X Gate Keeper"
+echo -e "\t\t- (You'll be able to install any app you want from here on, not just Mac App Store apps)"
 sudo spctl --master-disable
 sudo defaults write /var/db/SystemPolicy-prefs.plist enabled -string no
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-echo ""
-echo "Expanding the save panel by default"
+echo -e "\t- Expanding the save panel by default"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
-echo ""
-echo "Automatically quit printer app once the print jobs complete"
+echo -e "\t- Automatically quit printer app once the print jobs complete"
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-echo ""
-echo "Disabling system-wide resume"
+echo -e "\t- Disabling system-wide resume"
 defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
 
-echo ""
-echo "Disabling automatic termination of inactive apps"
+echo -e "\t- Disabling automatic termination of inactive apps"
 defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
-echo ""
-echo "Saving to disk (not to iCloud) by default"
+echo -e "\t- Saving to disk (not to iCloud) by default"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
-echo ""
-echo "Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
+echo -e "\t- Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
-echo ""
-echo "Check for software updates daily, not just once per week"
+echo -e "\t- Check for software updates daily, not just once per week"
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
-echo ""
-echo "Disable smart quotes and smart dashes as they're annoying when typing code"
+echo -e "\t- Disable smart quotes and smart dashes as they're annoying when typing code"
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
@@ -65,105 +61,86 @@ defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input
 ###############################################################################
 
-echo ""
-echo "Increasing sound quality for Bluetooth headphones/headsets"
+echo -e "\t- Increasing sound quality for Bluetooth headphones/headsets"
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
-echo ""
-echo "Enabling full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
+echo -e "\t- Enabling full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-echo ""
-echo "Disabling press-and-hold for keys in favor of a key repeat"
+echo -e "\t- Disabling press-and-hold for keys in favor of a key repeat"
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
-echo ""
-echo "Setting a blazingly fast keyboard repeat rate (ain't nobody got time fo special chars while coding!)"
+echo -e "\t- Setting a blazingly fast keyboard repeat rate (ain't nobody got time fo special chars while coding!)"
 defaults write NSGlobalDomain KeyRepeat -int 0
 
-echo ""
-echo "Disabling auto-correct"
+echo -e "\t- Disabling auto-correct"
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
-echo ""
-echo "Setting trackpad & mouse speed to a reasonable number"
+echo -e "\t- Setting trackpad & mouse speed to a reasonable number"
 defaults write -g com.apple.trackpad.scaling 2
 defaults write -g com.apple.mouse.scaling 2.5
 
-echo ""
-echo "Turn off keyboard illumination when computer is not used for 5 minutes"
+echo -e "\t- Turn off keyboard illumination when computer is not used for 5 minutes"
 defaults write com.apple.BezelServices kDimTime -int 300
 
 ###############################################################################
 # Screen
 ###############################################################################
 
-echo ""
-echo "Requiring password immediately after sleep or screen saver begins"
+echo -e "\t- Requiring password immediately after sleep or screen saver begins"
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
-echo ""
-echo "Enabling subpixel font rendering on non-Apple LCDs"
+echo -e "\t- Enabling subpixel font rendering on non-Apple LCDs"
 defaults write NSGlobalDomain AppleFontSmoothing -int 2
 
-echo ""
-echo "Enable HiDPI display modes (requires restart)"
+echo -e "\t- Enable HiDPI display modes (requires restart)"
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
 ###############################################################################
 # Finder
 ###############################################################################
 
-echo ""
-echo "Showing all filename extensions in Finder by default"
+echo -e "\t- Showing all filename extensions in Finder by default"
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-echo ""
-echo "Showing status bar in Finder by default"
+echo -e "\t- Showing status bar in Finder by default"
 defaults write com.apple.finder ShowStatusBar -bool true
 
-echo ""
-echo "Allowing text selection in Quick Look/Preview in Finder by default"
+echo -e "\t- Allowing text selection in Quick Look/Preview in Finder by default"
 defaults write com.apple.finder QLEnableTextSelection -bool true
 
-echo ""
-echo "Displaying full POSIX path as Finder window title"
+echo -e "\t- Displaying full POSIX path as Finder window title"
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
-echo ""
-echo "Disabling the warning when changing a file extension"
+echo -e "\t- Disabling the warning when changing a file extension"
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
-echo ""
-echo "Use column view in all Finder windows by default"
+echo -e "\t- Use column view in all Finder windows by default"
 defaults write com.apple.finder FXPreferredViewStyle Clmv
 
-echo ""
-echo "Avoiding the creation of .DS_Store files on network volumes"
+echo -e "\t- Avoiding the creation of .DS_Store files on network volumes"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
-echo ""
-echo "Enabling snap-to-grid for icons on the desktop and in other icon views"
+echo -e "\t- Show hidden files in all Finder windows by default"
+defaults write com.apple.finder AppleShowAllFiles -bool true
+
+echo -e "\t- Enabling snap-to-grid for icons on the desktop and in other icon views"
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
 ###############################################################################
 # Dock & Mission Control
 ###############################################################################
 
-echo ""
-echo "Setting the icon size of Dock items to 36 pixels for optimal size/screen-realestate"
+echo -e "\t- Setting the icon size of Dock items to 36 pixels for optimal size/screen-realestate"
 defaults write com.apple.dock tilesize -int 36
 
-echo ""
-echo "Speeding up Mission Control animations and grouping windows by application"
+echo -e "\t- Speeding up Mission Control animations and grouping windows by application"
 defaults write com.apple.dock expose-animation-duration -float 0.1
 defaults write com.apple.dock "expose-group-by-app" -bool true
 
-echo ""
-echo "Setting Dock to auto-hide and removing the auto-hiding delay"
+echo -e "\t- Setting Dock to auto-hide and removing the auto-hiding delay"
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock autohide-time-modifier -float 0
@@ -172,59 +149,48 @@ defaults write com.apple.dock autohide-time-modifier -float 0
 # Safari & WebKit
 ###############################################################################
 
-echo ""
-echo "Hiding Safari's bookmarks bar by default"
+echo -e "\t- Hiding Safari's bookmarks bar by default"
 defaults write com.apple.Safari ShowFavoritesBar -bool false
 
-echo ""
-echo "Hiding Safari's sidebar in Top Sites"
+echo -e "\t- Hiding Safari's sidebar in Top Sites"
 defaults write com.apple.Safari ShowSidebarInTopSites -bool false
 
-echo ""
-echo "Disabling Safari's thumbnail cache for History and Top Sites"
+echo -e "\t- Disabling Safari's thumbnail cache for History and Top Sites"
 defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
 
-echo ""
-echo "Enabling Safari's debug menu"
+echo -e "\t- Enabling Safari's debug menu"
 defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
-echo ""
-echo "Making Safari's search banners default to Contains instead of Starts With"
+echo -e "\t- Making Safari's search banners default to Contains instead of Starts With"
 defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
 
-echo ""
-echo "Removing useless icons from Safari's bookmarks bar"
+echo -e "\t- Removing useless icons from Safari's bookmarks bar"
 defaults write com.apple.Safari ProxiesInBookmarksBar "()"
 
-echo ""
-echo "Enabling the Develop menu and the Web Inspector in Safari"
+echo -e "\t- Enabling the Develop menu and the Web Inspector in Safari"
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
 defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
 
-echo ""
-echo "Adding a context menu item for showing the Web Inspector in web views"
+echo -e "\t- Adding a context menu item for showing the Web Inspector in web views"
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
 ###############################################################################
 # Mail
 ###############################################################################
 
-echo ""
-echo "Setting email addresses to copy as 'foo@example.com' instead of 'Foo Bar <foo@example.com>' in Mail.app"
+echo -e "\t- Setting email addresses to copy as 'foo@example.com' instead of 'Foo Bar <foo@example.com>' in Mail.app"
 defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 ###############################################################################
 # Spotlight                                                                   #
 ###############################################################################
 
-echo ""
-echo "Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before."
+echo -e "\t- Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before."
 # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
 sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
 
-echo ""
-echo "Change indexing order and disable some search results"
+echo -e "\t- Change indexing order and disable some search results"
 # Yosemite-specific search results (remove them if your are using OS X 10.9 or older):
 # 	MENU_DEFINITION
 # 	MENU_CONVERSION
@@ -256,81 +222,55 @@ defaults write com.apple.spotlight orderedItems -array \
 	'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
 	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 
-echo ""
-echo "Load new settings before rebuilding the index"
-killall mds > /dev/null 2>&1
-
-echo ""
-echo "Make sure indexing is enabled for the main volume"
+echo -e "\t- Make sure indexing is enabled for the main volume"
 sudo mdutil -i on / > /dev/null
 
-echo ""
-echo "Rebuild the index from scratch"
+echo -e "\t- Rebuild the index from scratch"
 sudo mdutil -E / > /dev/null
 
 ###############################################################################
 # Terminal & iTerm 2
 ###############################################################################
 
-echo ""
-echo "Enabling UTF-8 ONLY in Terminal.app and setting the Pro theme by default"
+echo -e "\t- Enabling UTF-8 ONLY in Terminal.app and setting the Pro theme by default"
 defaults write com.apple.terminal StringEncodings -array 4
 defaults write com.apple.Terminal "Default Window Settings" -string "Pro"
 defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
 
-echo ""
-echo "Don’t display the annoying prompt when quitting iTerm"
+echo -e "\t- Don’t display the annoying prompt when quitting iTerm"
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 ###############################################################################
 # Time Machine
 ###############################################################################
 
-echo ""
-echo "Preventing Time Machine from prompting to use new hard drives as backup volume"
+echo -e "\t- Preventing Time Machine from prompting to use new hard drives as backup volume"
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 ###############################################################################
 # Messages                                                                    #
 ###############################################################################
 
-echo ""
-echo "Disable automatic emoji substitution (i.e. use plain text smileys)"
+echo -e "\t- Disable automatic emoji substitution (i.e. use plain text smileys)"
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
 
-echo ""
-echo "Disable smart quotes as it's annoying for messages that contain code"
+echo -e "\t- Disable smart quotes as it's annoying for messages that contain code"
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
 
-echo ""
-echo "Disable continuous spell checking"
+echo -e "\t- Disable continuous spell checking"
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
 
 ###############################################################################
 # Personal Additions
 ###############################################################################
 
-echo ""
-echo "Disable the sudden motion sensor as it's not useful for SSDs"
+echo -e "\t- Disable the sudden motion sensor as it's not useful for SSDs"
 sudo pmset -a sms 0
 
-echo ""
-echo "Speeding up wake from sleep to 24 hours from an hour"
+echo -e "\t- Speeding up wake from sleep to 24 hours from an hour"
 # http://www.cultofmac.com/221392/quick-hack-speeds-up-retina-macbooks-wake-from-sleep-os-x-tips/
 sudo pmset -a standbydelay 86400
-
-echo ""
-echo "Disable annoying backswipe in Chrome"
+echo -e "\t- Disable annoying backswipe in Chrome"
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
 
-###############################################################################
-# Kill affected applications
-###############################################################################
-
-for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
-	"Dock" "Finder" "Google Chrome" "Google Chrome Canary" "Mail" "Messages" \
-	"Opera" "Safari" "SizeUp" "Spectacle" "SystemUIServer" "Terminal" \
-	"Transmission" "Twitter" "iCal"; do
-	killall "${app}" > /dev/null 2>&1
-done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+echo "Done. Please do a restart after these changes."

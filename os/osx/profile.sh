@@ -11,16 +11,8 @@ export PATH=/usr/local/opt/ruby/bin:$PATH
 # Use gnu tools instead
 export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
 
-# Setup jEnv
-export PATH=$HOME/.jenv/bin:$PATH
-eval "$(jenv init -)"
-jenv add `/usr/libexec/java_home`
-
 # Use atom as default editor
 EDITOR="atom"
-
-# Add gradle properties
-export GRADLE_OPTS="-Xmx2048m -Xms256m -XX:MaxPermSize=512m"
 
 # Update the number of open files
 ulimit -n 1000
@@ -48,13 +40,33 @@ alias lv='pwd; ls -R'
 ###########################
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/guy/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # The ZSH theme to use
 ZSH_THEME="agnoster"
 
 # The plugins to use in the zsh shell
-plugins=(atom git gradle mvn npm bower brew)
+plugins=(atom git npm bower brew)
 
 # Load the oh-my-zsh configuraiton file
 source $ZSH/oh-my-zsh.sh
+
+########################
+# Gradle configuration #
+########################
+
+export GRADLE_OPTS="-Xmx2048m -Xms256m -XX:MaxPermSize=512m"
+
+#####################
+# NVM configuration #
+#####################
+
+export NVM_DIR=~/.nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+######################
+# jEnv configuration #
+######################
+
+export PATH=$HOME/.jenv/bin:$PATH
+eval "$(jenv init -)"

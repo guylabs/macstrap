@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-set -eu
-
-# Update homebrew
-brew update
+set -e
 
 # Install more recent versions of some OS X tools
 brew tap homebrew/dupes
@@ -11,18 +8,49 @@ brew install homebrew/dupes/grep
 # Load the binaries and the global NPM packages from the config file
 source $config
 
-# Install the binaries
-brew install ${binaries[@]}
+# Show banner
+echo -e "#######################################################"
+echo -e "# Installing the binaries and global NPM packages ... #"
+echo -e "#######################################################"
+echo
 
-# Install the latest stable node version and the global npm packages
-nvm install stable
-nvm alias default stable
-npm install -g ${globalNpmPackages[@]}
+# Install binaries
+if [ ${#binaries} -gt 0 ]; then
+    echo -e "\t- Installing binaries ..."
+    brew install ${binaries[@]}
+else
+    echo -e "\t- No binaries defined in macstrap configuration."
+fi
 
-# Install oh-my-zsh
-curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+# Install nvm
+if [ ! -d "$HOME/.nvm" ]; then
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+  export NVM_DIR="$HOME/.nvm"
+  source "$HOME/.nvm/nvm.sh"
+  nvm install stable
+  nvm alias default stable
+else
+  echo -e "\t- NVM not installed as the ~/.nvm folder is already present."
+fi
 
-# Remove outdated versions from the cellar
-brew cleanup
+
+# Install NPM packages
+if [ ${#globalNpmPackages} -gt 0 ]; then
+    echo -e "\t- Installing global NPM packages within the NVM default..."
+    npm install -g ${globalNpmPackages[@]}
+else
+    echo -e "\t- No global NPM packages defined in macstrap configuration."
+fi
+
+# Install jEnv
+if [ ! -d "$HOME/.jenv" ]; then
+  git clone https://github.com/gcuisinier/jenv.git ~/.jenv
+  export PATH=$HOME/.jenv/bin:$PATH
+  eval "$(jenv init -)"
+  jenv add `/usr/libexec/java_home`
+  jenv global 1.7
+else
+  echo -e "\t- jEnv not installed as the ~/.jenv folder is already present."
+fi
 
 exit 0

@@ -1,38 +1,53 @@
 #!/usr/bin/env bash
-set -eu
-
-# modules
-source "$lib/symlink/index.sh"
-source "$lib/is-osx/index.sh"
-
-# Only run if on a Mac
-if [[ 0 -eq `osx` ]]; then
-  exit 0
-fi
+set -e
 
 # exit 1
 # paths
 osx="$os/osx"
 
+# Show banner
+echo -e "############################"
+echo -e "# Bootstrapping system ... #"
+echo -e "############################"
+echo
+
+# Update homebrew
+brew update
+
 # Run each program
-sh "$osx/defaults.sh"
-sh "$osx/binaries.sh"
-sh "$osx/apps.sh"
+bash "$osx/apps.sh"
+bash "$osx/binaries.sh"
+
+# Remove outdated versions from the cellar
+brew cleanup
+brew cask cleanup
 
 # Symlink the .bash_profile configuration file
 if [[ ! -e "$HOME/.bash_profile" ]]; then
-  symlink "$osx/profile.sh" "$HOME/.bash_profile"
+  ln -s "$osx/profile.sh" "$HOME/.bash_profile"
   echo -e "Symlinked \033[1m$osx/profile.sh\033[0m => \033[1m$HOME/.bash_profile\033[0m"
-  source $HOME/.bash_profile
 else
   echo -e "\033[1m$HOME/.bash_profile\033[0m already exists. Please remove it and bootstrap again."
 fi
 
 # Symlink the .zshrc configuration file
 if [[ ! -e "$HOME/.zshrc" ]]; then
-  symlink "$osx/profile.sh" "$HOME/.zshrc"
+  ln -s "$osx/profile.sh" "$HOME/.zshrc"
   echo -e "Symlinked \033[1m$osx/profile.sh\033[0m => \033[1m$HOME/.zshrc\033[0m"
-  source $HOME/.zshrc
 else
   echo -e "\033[1m$HOME/.zshrc\033[0m already exists. Please remove it and bootstrap again."
 fi
+
+# Symlink the .gitconfig configuration file
+if [[ ! -e "$HOME/.gitconfig" ]]; then
+  ln -s "$osx/git-config.sh" "$HOME/.gitconfig"
+  echo -e "Symlinked \033[1m$osx/git-config.sh\033[0m => \033[1m$HOME/.gitconfig\033[0m"
+else
+  echo -e "\033[1m$HOME/.gitconfig\033[0m already exists. Please remove it and bootstrap again."
+fi
+
+# Install oh-my-zsh
+curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash
+
+# Set the defaults at the end such that when something fails here the apps and binaries are already installed
+bash "$osx/defaults.sh"

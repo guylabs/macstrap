@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -eu
-source version.sh
 
 # macstrap main
 main() {
@@ -10,6 +9,8 @@ main() {
   export lib="$dirname/lib"
   export os="$dirname/os"
   export config="$HOME/.macstrap/macstrap.cfg"
+
+  source "$dirname/version.sh"
 
   if [ $# -eq 0 ]; then
     # if no argument is present show the usage
@@ -27,30 +28,26 @@ main() {
         usage
         exit
         ;;
-      reload )
-        echo "Reloading the $HOME/.bash_profile ..."
-        source "$HOME/.bash_profile"
-        exit
-        ;;
       boot )
-        echo "Bootstrapping OS X ..."
-        sh "$os/osx/index.sh"
+        bash "$os/osx/index.sh"
         exit
         ;;
       update )
-        update
+        bash "$os/osx/update.sh"
         exit
         ;;
       "update macstrap" )
-        update macstrap
+        updatemacstrap
         exit
         ;;
       backup )
-        echo "mackup backup"
+        # TODO: run 'mackup backup'
+        echo "mackup backup is not implemented in the current version"
         exit
         ;;
       restore )
-        echo "mackup restore"
+        # TODO: run 'mackup restore'
+        echo "mackup restore is not implemented in the current version"
         exit
         ;;
       *)
@@ -63,7 +60,7 @@ main() {
 
 # usage info
 usage() {
-  source banner.sh
+  source "$dirname/banner.sh"
 
   cat <<EOF
 
@@ -76,7 +73,6 @@ usage() {
 
   Commands:
 
-    reload                  Reload the .bash_profile
     boot                    Bootstrap OS X and install all configured apps, binaries etc.
     update                  Update all apps, binaries etc. and all OS X app store applications
     update macstrap         Update macstrap to the latest version
@@ -86,27 +82,14 @@ usage() {
 EOF
 }
 
-# update OS X or macstrap
-update() {
-  if [ $# -eq 0 ]; then
-    # if no argument is present update the apps, binaries and OS X app store applications
-    echo "Updating all apps, binaries etc. and the OS X app store applications ..."
-    sh "$os/osx/update.sh"
-  else
-    if [ $1 = "macstrap" ]; then
-      echo "Updating macstrap ..."
-      updatemacstrap
-    fi
-  fi
-}
-
 # update macstrap via git
 updatemacstrap() {
+  echo "Updating macstrap ..."
   mkdir -p /tmp/macstrap \
     && cd /tmp/macstrap \
     && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 \
-    && ./install.sh \
-    && echo "Updated macstrap to $(macstrap --version)"
+    && bash ./install.sh \
+    && echo "Updated macstrap from version $version to $(macstrap --version)"
   exit
 }
 
