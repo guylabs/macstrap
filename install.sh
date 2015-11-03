@@ -70,6 +70,7 @@ fi
 
 # if macstrap was installed with the base installation, then delete the extracted /tmp/macstrap folder again
 if [ -e "/tmp/macstrap" ]; then
+  cd ~/
   rm -rf "/tmp/macstrap"
 fi
 
