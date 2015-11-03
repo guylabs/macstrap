@@ -34,7 +34,7 @@ installed automatically with macstrap.
 To install or update macstrap you just need to execute the following line.
 
 ```
-mkdir -p /tmp/macstrap && cd /tmp/macstrap && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 && bash ./install.sh
+mkdir -p /tmp/macstrap && cd /tmp/macstrap && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 && bash ./install.sh && cd ~
 ```
 This will install macstrap to the `/usr/local/lib` folder and create proper symlinks in the `/usr/local/bin` folder such 
 that you are easily able to execute the `macstrap` command on the command line. It will also install the following required
