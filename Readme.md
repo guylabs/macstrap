@@ -14,7 +14,7 @@ Underneath macstrap uses [mackup](https://github.com/lra/mackup) to store and re
 #Table of contents
 
 - [Requirements](#requirements)
-- [Installation](#installation)
+- [Installation and update](#installation-and-update)
 - [Usage](#usage)
     - [`boot`](#boot)
     - [`update`](#update)
