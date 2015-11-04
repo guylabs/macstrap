@@ -48,6 +48,8 @@ fi
 
 # Install oh-my-zsh
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash
+rm -rf ~/.zshrc
+mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
 
 # Set the defaults at the end such that when something fails here the apps and binaries are already installed
 bash "$osx/defaults.sh"

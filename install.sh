@@ -15,13 +15,11 @@ conf="$HOME/.macstrap"
 confMackup="$HOME/.mackup"
 
 # Install the XCode command line tools first as GIT is needed by homebrew
-if test ! $(which git); then
-  echo -e "\t- First we need to install XCode command line tools. Please press the install button on the dialog ..."
-  xcode-select --install > /dev/null 2>&1
-  echo
-  echo -e "\t\t- Press any key when the installation has completed."
-  read -e
-fi
+echo -e "\t- First we need to install XCode command line tools. Please press the install button on the dialog ..."
+xcode-select --install > /dev/null 2>&1 || true
+echo
+echo -e "\t\t- Press any key when the installation has completed."
+read -e
 
 # Create directories in case they aren't already there
 echo -e "We need sudo rights to change the owner of the \033[1m/usr/local\033[0m folder to \033[1m$(whoami):admin\033[0m to create the \033[1m$lib\033[0m and \033[1m$bin\033[0m directories."

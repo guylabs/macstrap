@@ -15,6 +15,7 @@ softwareupdate -ia
 echo -e "\t- Updating the apps and binaries ..."
 brew update
 brew upgrade
+brew upgrade brew-cask || true
 
 # update apm packages
 apm upgrade
