@@ -64,6 +64,11 @@ export GRADLE_OPTS="-Xmx2048m -Xms256m -XX:MaxPermSize=512m"
 export NVM_DIR=~/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+# export Google Chrome and Firefox binaries used for Karma tests as karma is not
+# able to find the hombrew installed versions
+export CHROME_BIN="~/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+export FIREFOX_BIN="~/Applications/Firefox.app/Contents/MacOS/firefox"
+
 ######################
 # jEnv configuration #
 ######################
