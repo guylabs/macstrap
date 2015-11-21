@@ -1,6 +1,6 @@
 # macstrap
 
-> Easily setup your OS X from scratch.
+> Easily set up your OS X from scratch.
 
 macstrap is a command line tool to simplify the initial setup or the reinstallation of command line tools and GUI 
 applications in OS X. To install and keep them up to date macstrap uses [homebrew](http://brew.sh) for the command 
