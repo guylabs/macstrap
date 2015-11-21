@@ -4,13 +4,14 @@ set -eu
 # macstrap main
 main() {
 
-  # paths
-  export dirname=$(dirname $(realpath $0))
-  export lib="$dirname/lib"
-  export os="$dirname/os"
-  export config="$HOME/.macstrap/macstrap.cfg"
+  # load the version
+  macstrapInstallFolder=$(dirname $(realpath $0))
+  source "$macstrapInstallFolder/version.sh"
 
-  source "$dirname/version.sh"
+  # global variables
+  export macstrapVersion="$version"
+  export macstrapConfigFolder="$HOME/.macstrap"
+  export macstrapConfigFile="$macstrapConfigFolder/macstrap.cfg"
 
   if [ $# -eq 0 ]; then
     # if no argument is present show the usage
@@ -20,34 +21,31 @@ main() {
     # run command
     case $1 in
       -v | --version )
-        echo "macstrap ${version}"
-        mackup --version
+        echo "macstrap $version"
         exit
         ;;
       -h | --help )
         usage
         exit
         ;;
-      boot )
-        bash "$os/osx/index.sh"
+      install )
+        executeCommand "install"
         exit
         ;;
       update )
-        bash "$os/osx/update.sh"
+        executeCommand "update"
         exit
         ;;
-      "update macstrap" )
+      "update-macstrap" )
         updatemacstrap
         exit
         ;;
       backup )
-        # TODO: run 'mackup backup'
-        echo "mackup backup is not implemented in the current version"
+        executeCommand "backup"
         exit
         ;;
       restore )
-        # TODO: run 'mackup restore'
-        echo "mackup restore is not implemented in the current version"
+        executeCommand "restore"
         exit
         ;;
       *)
@@ -60,7 +58,7 @@ main() {
 
 # usage info
 usage() {
-  source "$dirname/banner.sh"
+  source "$macstrapInstallFolder/banner.sh"
 
   cat <<EOF
 
@@ -73,22 +71,61 @@ usage() {
 
   Commands:
 
-    boot                    Bootstrap OS X and install all configured apps, binaries etc.
+    install                 Install all configured apps, binaries etc.
     update                  Update all apps, binaries etc. and all OS X app store applications
-    update macstrap         Update macstrap to the latest version
+    update-macstrap         Update macstrap to the latest version
     backup                  Backup the app configurations with mackup
     restore                 Restore the app configurations with mackup
 
 EOF
 }
 
+# executes a command with pre and post hooks
+executeCommand() {
+  executeCustomScripts "pre-$1-"
+  executeScript "$macstrapConfigFolder/commands/$1.sh"
+  executeCustomScripts "post-$1-"
+}
+
+# executes the custom scripts with the specified prefix
+executeCustomScripts() {
+  for file in "$macstrapConfigFolder/custom-scripts/$1"*.sh
+  do
+    if [ -f "$file" ]; then
+      executeScript $file
+    fi
+  done
+}
+
+# executes a script or does nothing if it does not exist
+executeScript() {
+  if [ -e $1 ]; then
+    echo
+    echo -e "Executing \033[1m$1\033[0m ..."
+    echo
+    bash $1
+    echo
+    echo -e "Finished executing \033[1m$1\033[0m"
+    echo
+  else
+    echo -e "Script \033[1m$1\033[0m does not exists. Doing nothing."
+  fi
+}
+
 # update macstrap via git
 updatemacstrap() {
-  echo "Updating macstrap ..."
+  echo
+  echo -e "Before upgrading macstrap to the latest version please check that your configured configuration repository is already migrated.";
+  echo -e "Please check the update documentation on https://github.com/guylabs/macstrap on how to do that."
+  echo
+  echo -e "Press enter to continue updating macstrap..."
+  read -e
+  currentFolder=$(pwd)
   mkdir -p /tmp/macstrap \
     && cd /tmp/macstrap \
     && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 \
     && bash ./install.sh \
+    && cd $currentFolder \
     && echo "Updated macstrap from version $version to $(macstrap --version)"
   exit
 }
