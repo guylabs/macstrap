@@ -103,7 +103,7 @@ echo
 # Check for homebrew
 if test ! $(which brew); then
   echo "Installing homebrew ..."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
   echo "Updating homebrew ..."
   brew update
@@ -111,8 +111,10 @@ fi
 
 # Install homebrew cask
 echo
-echo "Installing homebrew cask ..."
-brew install caskroom/cask/brew-cask
+echo "Installing homebrew cask services, versions and fonts..."
+
+# Tap the services
+brew tap homebrew/services
 
 # Tap alternative versions
 brew tap caskroom/versions
