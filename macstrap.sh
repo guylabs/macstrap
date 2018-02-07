@@ -71,8 +71,8 @@ usage() {
 
   Commands:
 
-    install                 Install all configured apps, binaries etc.
-    update                  Update all apps, binaries etc. and all OS X app store applications
+    install                 Install configured apps and binaries
+    update                  Update configured apps and binaries
     update-macstrap         Update macstrap to the latest version
     backup                  Backup the app configurations with mackup
     restore                 Restore the app configurations with mackup
@@ -103,7 +103,7 @@ executeScript() {
     echo
     echo -e "Executing \033[1m$1\033[0m ..."
     echo
-    bash $1
+    source $1
     echo
     echo -e "Finished executing \033[1m$1\033[0m"
     echo

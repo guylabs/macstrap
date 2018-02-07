@@ -21,15 +21,17 @@ conf="$HOME/.macstrap"
 echo -e "First we need to install XCode command line tools. Please press the install button on the dialog ..."
 xcode-select --install > /dev/null 2>&1 || true
 echo
+echo -e "If the installation failed, press Ctrl+c and execute the $(pwd)/install.sh script again ..."
+echo
 echo -e "When the installation is finished or no installation popped up, press any key to continue ..."
 read -e
 
 # Create directories in case they aren't already there
 echo -e "We need sudo rights to change the owner of the \033[1m/usr/local\033[0m folder to \033[1m$(whoami):admin\033[0m to create the \033[1m$lib\033[0m and \033[1m$bin\033[0m directories."
 echo
-sudo chown -R $(whoami):admin /usr/local
-mkdir -p $lib
-mkdir -p $bin
+sudo mkdir -p $lib
+sudo mkdir -p $bin
+sudo chown -R `whoami` /usr/local/*
 
 # Remove existing macstrap if it exists
 if [ -d "$lib/${PWD##*/}" ]; then
