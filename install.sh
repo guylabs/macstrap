@@ -124,6 +124,9 @@ brew tap caskroom/versions
 # Tap the fonts
 brew tap caskroom/fonts
 
+# Tap the drivers
+brew tap caskroom/drivers
+
 echo
 echo -e "\033[1;34m##########################################"
 echo -e "\033[1;34m# macstrap \033[0;33mv$version\033[1;34m successfully installed #"
