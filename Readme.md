@@ -2,14 +2,14 @@
 
 > Easily set up your OS X from scratch.
 
-macstrap is a command line tool to simplify the initial setup or the reinstallation of command line tools and GUI 
-applications in OS X. To install and keep them up to date macstrap uses [homebrew](http://brew.sh) for the command 
+macstrap is a command line tool to simplify the initial setup or the reinstallation of command line tools and GUI
+applications in OS X. To install and keep them up to date macstrap uses [homebrew](http://brew.sh) for the command
 line tools and [homebrew cask](http://caskroom.io) for the GUI applications.
 
 When a reinstallation of an already setup OS X is needed then macstrap is able to first store the configuration of the
 configured applications for example in a dropbox folder, on an external hard drive, etc. to be able to restore it
 again when the OS X is reinstalled. This saves you time and additionally you have a backup of your application configurations.
-Underneath macstrap uses [mackup](https://github.com/lra/mackup) to store and retrieve the configurations again.
+Underneath macstrap uses [mackup](https://github.com/lra/mackup) to store and retrieve the configurations again. Please check the projects site to see what it is able to backup for you.
 
 #Table of contents
 
@@ -30,20 +30,20 @@ Underneath macstrap uses [mackup](https://github.com/lra/mackup) to store and re
 
 ## Requirements
 
-macstrap has been tested on OS X 10.11 "El Capitan" and therefore this is needed as requirement. It is possible that it
+macstrap has been tested on OS X 10.13+ and therefore this is needed as requirement. It is possible that it
 also works with earlier versions of OS X but this is not supported.
 
 ## Installation and update
 
-First read the [Configuration](#configuration) section as it is important how you want to configure macstrap. Also have 
+First read the [Configuration](#configuration) section as it is important how you want to configure macstrap. Also have
 a look at the [Migrating the configuration](#migrating-the-configuration) section before you update such that everything
 is still working properly with the new version of macstrap. After that you can install or update macstrap by executing the following line.
 
 ```shell
-mkdir -p /tmp/macstrap && cd /tmp/macstrap && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 && bash ./install.sh && cd ~
+mkdir -p /tmp/macstrap && cd /tmp/macstrap && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 && bash ./install.sh && rm -rf /tmp/macstrap && cd ~
 ```
 
-This will install macstrap to the `/usr/local/lib` folder and create proper symlinks in the `/usr/local/bin` folder such 
+This will install macstrap to the `/usr/local/lib` folder and create proper symlinks in the `/usr/local/bin` folder such
 that you are easily able to execute the `macstrap` command from the command line. It will also install the following required
 applications:
 
@@ -51,15 +51,16 @@ applications:
 * [homebrew](http://brew.sh) to install the command line tools.
 * [homebrew cask](http://caskroom.io) to install the GUI applications.
 
-When you are asked to select how to configure macstrap choose the default option which will use the default 
-[`macstrap-config`](https://github.com/guylabs/macstrap-config).
+When you are asked to select how to configure macstrap choose the default option, or use your custom configuration.
 
 If you already have macstrap installed the install script will replace the old version and keep your configurations.
+
+When done exeute `macstrap install` to install the command line tools and GUI applications, based on the configuration set above.
 
 ## Configuration
 
 macstrap is configured with a so called "configuration GIT repository" to enable versioning (tagging and branching) of the configuration.
-While installing macstrap you will be asked how to configure macstrap and there you can select the default configuration which I use or
+While installing macstrap you will be asked how to configure macstrap and are able to select the default configuration which I use or
 point to a GIT repository where your custom configuration resides.
 
 Please have a look at the following sections to see what the default configuration contains and how to create a custom configuration.
@@ -69,7 +70,7 @@ Please have a look at the following sections to see what the default configurati
 The default macstrap configuration resides in the [`macstrap-config`](https://github.com/guylabs/macstrap-config) GIT repository.
 This repository is built up with the needed structure and contains all required default scripts and configurations which I use for my setup.
 
-Please have a look at the [`macstrap.cfg`](https://github.com/guylabs/macstrap-config/blob/master/macstrap.cfg) to see which apps, 
+Please have a look at the [`macstrap.cfg`](https://github.com/guylabs/macstrap-config/blob/master/macstrap.cfg) to see which apps,
 command line tools etc. will be installed if you choose the default configuration.
 
 ### Custom configuration
@@ -94,12 +95,12 @@ macstrap offers several commands which are used to install or update the system.
 ### `install`
 
 This command will execute the [`install.sh`](https://github.com/guylabs/macstrap-config/blob/master/commands/install.sh) of the defined configuration repository.
-In the default configuration it will install all apps and command line tools etc. which are defined in the [`macstrap-config`](https://github.com/guylabs/macstrap-config) repository.
+In the default configuration it will install all GUI applications and command line tools which are defined in the [`macstrap-config`](https://github.com/guylabs/macstrap-config) repository.
 
 ### `update`
 
 This command will execute the [`update.sh`](https://github.com/guylabs/macstrap-config/blob/master/commands/update.sh) of the defined configuration repository.
-In the default configuration it will update all apps and command line tools etc. with the help of [homebrew](http://brew.sh) and [homebrew cask](http://caskroom.io).
+In the default configuration it will update all GUI applications and command line tools to the latest available version with the help of [homebrew](http://brew.sh) and [homebrew cask](http://caskroom.io).
 
 ### `update-macstrap`
 

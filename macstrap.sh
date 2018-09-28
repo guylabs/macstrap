@@ -85,6 +85,8 @@ executeCommand() {
   executeCustomScripts "pre-$1-"
   executeScript "$macstrapConfigFolder/commands/$1.sh"
   executeCustomScripts "post-$1-"
+  echo -e "Finished executing command \033[1m$1\033[0m"
+  echo
 }
 
 # executes the custom scripts with the specified prefix
@@ -126,6 +128,7 @@ updatemacstrap() {
     && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 \
     && bash ./install.sh \
     && cd $currentFolder \
+    && rm -rf /tmp/macstrap \
     && echo "Updated macstrap from version $version to $(macstrap --version)"
   exit
 }
