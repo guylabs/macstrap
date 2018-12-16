@@ -18,13 +18,13 @@ bin="/usr/local/bin"
 conf="$HOME/.macstrap"
 
 # Install the XCode command line tools first as GIT is needed by homebrew
-echo -e "First we need to install XCode command line tools. Please press the install button on the dialog ..."
-xcode-select --install > /dev/null 2>&1 || true
-echo
-echo -e "If the installation failed, press Ctrl+c and execute the $(pwd)/install.sh script again ..."
-echo
-echo -e "When the installation is finished or no installation popped up, press any key to continue ..."
-read -e
+# echo -e "First we need to install XCode command line tools. Please press the install button on the dialog ..."
+# xcode-select --install > /dev/null 2>&1 || true
+# echo
+# echo -e "If the installation failed, press Ctrl+c and execute the $(pwd)/install.sh script again ..."
+# echo
+# echo -e "When the installation is finished or no installation popped up, press any key to continue ..."
+# read -e
 
 # Create directories in case they aren't already there
 echo -e "We need sudo rights to change the owner of the \033[1m/usr/local\033[0m folder to \033[1m$(whoami):admin\033[0m to create the \033[1m$lib\033[0m and \033[1m$bin\033[0m directories."
@@ -64,7 +64,11 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
   echo
 
   # read the option and execute the according task
-  read -e configureMacstrapOption
+  if [ $# -eq 0 ]; then
+     read -e configureMacstrapOption
+  else
+     configureMacstrapOption = 0
+  fi
 
   # create the temporary directory to clone or copy the configuration
   mkdir -p $conf
