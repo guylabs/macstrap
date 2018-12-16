@@ -1,0 +1,6 @@
+os: osx
+osx_image: xcode10.2
+install:
+    - chmod a+x install.sh
+    - ./install.sh https://github.com/guylabs/macstrap-config.git
+script: ./test/prepare-build.sh

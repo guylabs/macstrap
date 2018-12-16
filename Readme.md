@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/guylabs/macstrap.svg?branch=master)](https://travis-ci.org/guylabs/macstrap)
+
 # macstrap
 
 > Easily set up your OS X from scratch.
