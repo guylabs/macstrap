@@ -1,5 +1,6 @@
 os: osx
 install:
     - brew install bats
-    - install.sh unattended
+    - chmod a+x install.sh
+    - ./install.sh unattended
 script: bats tests
