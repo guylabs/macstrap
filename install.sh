@@ -83,32 +83,34 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
   echo -n "Enter your decision: "
   echo
 
-  # read the option and execute the according task
-  configureMacstrapOption=0
-  if [ $# -eq 0 ]; then
-     read -e configureMacstrapOption
-  fi
-
   # create the temporary directory to clone or copy the configuration
   mkdir -p $conf
   cd $conf
 
-  case $configureMacstrapOption in
-      "1")
-          echo "Cloning the configuration from the default macstrap configuration GIT repository ..."
-          git clone https://github.com/guylabs/macstrap-config.git $conf
-          ;;
-      "2")
-          echo
-          echo -e "\033[1mPlease enter the GIT repository URL where the macstrap configuration resides\033[0m:"
-          read -e customGitUrl
-          git clone $customGitUrl $conf
-          ;;
-      *)
-          echo "No option selected. Cloning the configuration from the default macstrap configuration GIT repository ..."
-          git clone https://github.com/guylabs/macstrap-config.git $conf
-          ;;
-  esac
+  # read the option and execute the according task
+  if [ $# -eq 0 ]; then
+    read -e configureMacstrapOption
+    case $configureMacstrapOption in
+        "1")
+            echo "Cloning the configuration from the default macstrap configuration GIT repository ..."
+            git clone https://github.com/guylabs/macstrap-config.git $conf
+            ;;
+        "2")
+            echo
+            echo -e "\033[1mPlease enter the GIT repository URL where the macstrap configuration resides\033[0m:"
+            read -e customGitUrl
+            git clone $customGitUrl $conf
+            ;;
+        *)
+            echo "No option selected. Cloning the configuration from the default macstrap configuration GIT repository ..."
+            git clone https://github.com/guylabs/macstrap-config.git $conf
+            ;;
+    esac
+
+  else
+    echo "Cloning the configuration from the given macstrap configuration GIT repository: $1"
+    git clone $1 $conf
+  fi
 
 else
   echo -e "Configuration folder \033[1m$conf\033[0m and \033[1m$conf/macstrap.cfg\033[0m file already exists."

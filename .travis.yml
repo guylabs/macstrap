@@ -1,6 +1,5 @@
 os: osx
 install:
-    - brew install bats
     - chmod a+x install.sh
-    - ./install.sh unattended
+    - ./install.sh https://github.com/guylabs/macstrap-config.git
 script: macstrap install
