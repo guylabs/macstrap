@@ -3,4 +3,4 @@ install:
     - brew install bats
     - chmod a+x install.sh
     - ./install.sh unattended
-script: bats tests
+script: macstrap install
