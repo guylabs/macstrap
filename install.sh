@@ -29,7 +29,7 @@ echo -e "Checking if homebrew is installed and up to date ..."
 echo
 
 # Check for homebrew
-if test ! $(which brew); then
+if test ! $(hash brew); then
   echo "Installing homebrew ..."
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
