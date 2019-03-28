@@ -1,6 +1,9 @@
 os: osx
 osx_image: xcode10.2
+env:
+  global:
+    - MACSTRAP_WITHOUT_MAS=true
 install:
     - chmod a+x install.sh
     - ./install.sh https://github.com/guylabs/macstrap-config.git
-script: ./build/prepare-build.sh
+script: ./test/prepare-build.sh
