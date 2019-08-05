@@ -57,7 +57,7 @@ When you are asked to select how to configure macstrap choose the default option
 
 If you already have macstrap installed the install script will replace the old version and keep your configurations.
 
-When done exeute `macstrap install` to install the command line tools and GUI applications, based on the configuration set above.
+When done execute `macstrap install` to install the command line tools and GUI applications, based on the configuration set above.
 
 ## Configuration
 
