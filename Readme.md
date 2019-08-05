@@ -13,7 +13,7 @@ configured applications for example in a dropbox folder, on an external hard dri
 again when the OS X is reinstalled. This saves you time and additionally you have a backup of your application configurations.
 Underneath macstrap uses [mackup](https://github.com/lra/mackup) to store and retrieve the configurations again. Please check the projects site to see what it is able to backup for you.
 
-#Table of contents
+# Table of contents
 
 - [Requirements](#requirements)
 - [Installation and update](#installation-and-update)
