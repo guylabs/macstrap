@@ -45,13 +45,13 @@ echo "Installing homebrew services, versions, fonts and drivers ..."
 brew tap homebrew/services
 
 # Tap alternative versions
-brew tap caskroom/versions
+brew tap homebrew/cask-versions
 
 # Tap the fonts
-brew tap caskroom/fonts
+brew tap homebrew/cask-fonts
 
 # Tap the drivers
-brew tap caskroom/drivers
+brew tap homebrew/cask-drivers
 
 # Remove existing macstrap if it exists
 if [ -d "$lib/${PWD##*/}" ]; then
