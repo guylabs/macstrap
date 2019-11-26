@@ -1,12 +1,12 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+set -euo
 
 # macstrap main
 main() {
 
   # load the version
-  macstrapInstallFolder=$(dirname $(realpath $0))
-  source "$macstrapInstallFolder/version.sh"
+  macstrapInstallFolder="$(dirname "$(realpath "$0")")"
+  . "$macstrapInstallFolder/version.sh"
 
   # global variables
   export macstrapVersion="$version"
@@ -40,14 +40,6 @@ main() {
         updatemacstrap
         exit
         ;;
-      backup )
-        executeCommand "backup"
-        exit
-        ;;
-      restore )
-        executeCommand "restore"
-        exit
-        ;;
       *)
         usage
         exit
@@ -58,7 +50,7 @@ main() {
 
 # usage info
 usage() {
-  source "$macstrapInstallFolder/banner.sh"
+  . "$macstrapInstallFolder/banner.sh"
 
   cat <<EOF
 
@@ -74,8 +66,6 @@ usage() {
     install                 Install configured apps and binaries
     update                  Update configured apps and binaries
     update-macstrap         Update macstrap to the latest version
-    backup                  Backup the app configurations with mackup
-    restore                 Restore the app configurations with mackup
 
 EOF
 }
@@ -85,7 +75,7 @@ executeCommand() {
   executeCustomScripts "pre-$1-"
   executeScript "$macstrapConfigFolder/commands/$1.sh"
   executeCustomScripts "post-$1-"
-  echo -e "Finished executing command \033[1m$1\033[0m"
+  echo "Finished executing command \033[1m$1\033[0m"
   echo
 }
 
@@ -94,40 +84,40 @@ executeCustomScripts() {
   for file in "$macstrapConfigFolder/custom-scripts/$1"*.sh
   do
     if [ -f "$file" ]; then
-      executeScript $file
+      executeScript "$file"
     fi
   done
 }
 
 # executes a script or does nothing if it does not exist
 executeScript() {
-  if [ -e $1 ]; then
+  if [ -e "$1" ]; then
     echo
-    echo -e "Executing \033[1m$1\033[0m ..."
+    echo "Executing \033[1m$1\033[0m ..."
     echo
-    source $1
+    . "$1"
     echo
-    echo -e "Finished executing \033[1m$1\033[0m"
+    echo "Finished executing \033[1m$1\033[0m"
     echo
   else
-    echo -e "Script \033[1m$1\033[0m does not exists. Doing nothing."
+    echo "Script \033[1m$1\033[0m does not exists. Doing nothing."
   fi
 }
 
 # update macstrap via git
 updatemacstrap() {
   echo
-  echo -e "Before upgrading macstrap to the latest version please check that your configured configuration repository is already migrated.";
-  echo -e "Please check the update documentation on https://github.com/guylabs/macstrap on how to do that."
+  echo "Before upgrading macstrap to the latest version please check that your configured configuration repository is already migrated.";
+  echo "Please check the update documentation on https://github.com/guylabs/macstrap on how to do that."
   echo
-  echo -e "Press enter to continue updating macstrap..."
-  read -e
+  printf "Press enter to continue updating macstrap..."
+  read -r
   currentFolder=$(pwd)
   mkdir -p /tmp/macstrap \
     && cd /tmp/macstrap \
     && curl -L https://github.com/guylabs/macstrap/archive/master.tar.gz | tar zx --strip 1 \
     && bash ./install.sh \
-    && cd $currentFolder \
+    && cd "$currentFolder" \
     && rm -rf /tmp/macstrap \
     && echo "Updated macstrap from version $version to $(macstrap --version)"
   exit
@@ -136,19 +126,19 @@ updatemacstrap() {
 # "readlink -f" shim for Mac OS X
 realpath() {
   target=$1
-  cd `dirname $target`
-  target=`basename $target`
+  cd "$(dirname "$target")"
+  target="$(basename "$target")"
 
   # iterate down a (possible) chain of symlinks
   while [ -L "$target" ]
   do
-      target=`readlink $target`
-      cd `dirname $target`
-      target=`basename $target`
+      target="$(readlink "$target")"
+      cd "$(dirname "$target")"
+      target="$(basename "$target")"
   done
 
-  dir=`pwd -P`
-  echo $dir/$target
+  dir="$(pwd -P)"
+  echo "$dir/$target"
 }
 
 # call main

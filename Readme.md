@@ -8,11 +8,6 @@ macstrap is a command line tool to simplify the initial setup or the reinstallat
 applications in OS X. To install and keep them up to date macstrap uses [homebrew](http://brew.sh) for the command
 line tools and [homebrew cask](http://caskroom.io) for the GUI applications.
 
-When a reinstallation of an already setup OS X is needed then macstrap is able to first store the configuration of the
-configured applications for example in a dropbox folder, on an external hard drive, etc. to be able to restore it
-again when the OS X is reinstalled. This saves you time and additionally you have a backup of your application configurations.
-Underneath macstrap uses [mackup](https://github.com/lra/mackup) to store and retrieve the configurations again. Please check the projects site to see what it is able to backup for you.
-
 # Table of contents
 
 - [Requirements](#requirements)
@@ -25,8 +20,6 @@ Underneath macstrap uses [mackup](https://github.com/lra/mackup) to store and re
     - [`install`](#install)
     - [`update`](#update)
     - [`update macstrap`](#update-macstrap)
-    - [`backup`](#backup)
-    - [`restore`](#restore)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
 
@@ -107,16 +100,6 @@ In the default configuration it will update all GUI applications and command lin
 ### `update-macstrap`
 
 This command will download the newest master version of macstrap and execute the `install.sh` script to update macstrap.
-
-### `backup`
-
-This command will execute the [`backup.sh`](https://github.com/guylabs/macstrap-config/blob/master/commands/backup.sh) of the defined configuration repository.
-In the default configuration it will use [mackup](https://github.com/lra/mackup) to backup the configurations.
-
-### `restore`
-
-This command will execute the [`restore.sh`](https://github.com/guylabs/macstrap-config/blob/master/commands/restore.sh) of the defined configuration repository.
-In the default configuration it will use [mackup](https://github.com/lra/mackup) to restore the configurations.
 
 # Acknowledgements
 
