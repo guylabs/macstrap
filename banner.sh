@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 echo "\033[1;34m                          _                   "
 echo "\033[1;34m                         | |                  "

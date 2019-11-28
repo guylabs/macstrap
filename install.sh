@@ -1,5 +1,5 @@
 #!/bin/sh
-set -euo
+set -e
 . version.sh
 
 # Echo banner
@@ -55,7 +55,7 @@ brew tap homebrew/cask-drivers
 
 # Remove existing macstrap if it exists
 if [ -d "$lib/${PWD##*/}" ]; then
-  rm -rf "$lib/${PWD##*/}"
+  rm -rf "${lib:?}/${PWD##*/}"
 fi
 
 # Copy the macstrap to the lib folder
@@ -99,11 +99,11 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
             echo
             echo "\033[1mPlease enter the GIT repository URL where the macstrap configuration resides\033[0m:"
             read -r customGitUrl
-            git clone $customGitUrl $conf
+            git clone "$customGitUrl" "$conf"
             ;;
         *)
             echo "No option selected. Cloning the configuration from the default macstrap configuration GIT repository ..."
-            git clone https://github.com/guylabs/macstrap-config.git $conf
+            git clone https://github.com/guylabs/macstrap-config.git "$conf"
             ;;
     esac
 

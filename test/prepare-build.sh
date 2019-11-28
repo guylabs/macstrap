@@ -1,6 +1,5 @@
 #!/bin/sh
-
-set -evuo
+set -e
 
 # Use empty macstrap config as we want to test macstrap and not the installation of the brew packages
 rm -rf ~/.macstrap/macstrap.cfg

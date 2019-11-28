@@ -1,5 +1,5 @@
 #!/bin/sh
-set -euo
+set -e
 
 # macstrap main
 main() {
