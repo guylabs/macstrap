@@ -111,5 +111,6 @@ also need a similar functionality for Ubuntu. At this point I want to thank Matt
 
 macstrap is available under the [MIT license](https://github.com/guylabs/macstrap/blob/master/LICENSE).
 
-(c) Matthew Mueller - Forked project (https://github.com/matthewmueller/dots)
-(c) Modifications by Guy Brand
+&copy;  Matthew Mueller - Forked project (https://github.com/matthewmueller/dots)
+
+&copy;  Modifications by Guy Brand
