@@ -18,7 +18,7 @@ bin="/usr/local/bin"
 conf="$HOME/.macstrap"
 
 # Create directories in case they aren't already there
-echo "We need sudo rights to change the owner of the \033[1m/usr/local\033[0m folder to \033[1m$(whoami):admin\033[0m to create the \033[1m$lib\033[0m and \033[1m$bin\033[0m directories."
+printf "We need sudo rights to change the owner of the \033[1m/usr/local\033[0m folder to \033[1m%s:admin\033[0m to create the \033[1m%s\033[0m and \033[1m%s\033[0m directories.\n" "$(whoami)" "$lib" "$bin"
 echo
 sudo mkdir -p $lib
 sudo mkdir -p $bin
@@ -61,7 +61,7 @@ fi
 # Copy the macstrap to the lib folder
 cp -R "$dirname" "$lib/"
 echo
-echo "Copied \033[1m${dirname}\033[0m to \033[1m${lib}\033[0m"
+printf "Copied \033[1m%s\033[0m to \033[1m%s\033[0m\n" "$dirname" "$lib"
 
 # Remove existing bin if it exists
 if [ -L "$bin/macstrap" ]; then
@@ -70,13 +70,13 @@ fi
 
 # Symlink macstrap
 ln -s "$lib/macstrap/macstrap.sh" "$bin/macstrap"
-echo "Symlinked \033[1m${bin}/macstrap\033[0m to \033[1m${lib}/macstrap/macstrap.sh\033[0m"
+printf "Symlinked \033[1m%s/macstrap\033[0m to \033[1m%s/macstrap/macstrap.sh\033[0m\n" "$bin" "$lib"
 
 # Setup the configuration if not already existent
 if [ ! -e "$conf/macstrap.cfg" ]; then
 
   echo
-  echo "\033[1mPlease select how to configure macstrap\033[0m:"
+  printf "\033[1mPlease select how to configure macstrap\033[0m:\n"
   echo "[1] Get the configuration from the default macstrap configuration GIT repository (no versioning support)"
   echo "[2] Get the configuration from a custom GIT repository"
   echo
@@ -113,7 +113,7 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
   fi
 
 else
-  echo "Configuration folder \033[1m$conf\033[0m and \033[1m$conf/macstrap.cfg\033[0m file already exists."
+  printf "Configuration folder \033[1m%s\033[0m and \033[1m%s/macstrap.cfg\033[0m file already exists.\n" "$conf" "$conf"
 fi
 
 # if macstrap was installed with the base installation, then delete the extracted /tmp/macstrap folder again
@@ -125,6 +125,6 @@ if [ -e "/tmp/macstrap" ]; then
 fi
 
 echo
-echo "\033[1;34m##########################################"
-echo "\033[1;34m# macstrap \033[0;33mv$version\033[1;34m successfully installed #"
-echo "\033[1;34m##########################################\033[0m"
+printf "\033[1;34m##########################################\n"
+printf "\033[1;34m# macstrap \033[0;33mv%s\033[1;34m successfully installed #\n" "$version"
+printf "\033[1;34m##########################################\033[0m\n"

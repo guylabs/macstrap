@@ -75,7 +75,7 @@ executeCommand() {
   executeCustomScripts "pre-$1-"
   executeScript "$macstrapConfigFolder/commands/$1.sh"
   executeCustomScripts "post-$1-"
-  echo "Finished executing command \033[1m$1\033[0m"
+  printf "Finished executing command \033[1m%s\033[0m\n" "$1"
   echo
 }
 
@@ -93,14 +93,14 @@ executeCustomScripts() {
 executeScript() {
   if [ -e "$1" ]; then
     echo
-    echo "Executing \033[1m$1\033[0m ..."
+    printf "Executing \033[1m%s\033[0m ...\n" "$1"
     echo
     . "$1"
     echo
-    echo "Finished executing \033[1m$1\033[0m"
+    printf "Finished executing \033[1m%s\033[0m\n" "$1"
     echo
   else
-    echo "Script \033[1m$1\033[0m does not exists. Doing nothing."
+    printf "Script \033[1m%s\033[0m does not exists. Doing nothing.\n" "$1"
   fi
 }
 
