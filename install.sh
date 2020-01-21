@@ -97,7 +97,7 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
             ;;
         "2")
             echo
-            echo "\033[1mPlease enter the GIT repository URL where the macstrap configuration resides\033[0m:"
+            printf "\033[1mPlease enter the GIT repository URL where the macstrap configuration resides\033[0m:"
             read -r customGitUrl
             git clone "$customGitUrl" "$conf"
             ;;
