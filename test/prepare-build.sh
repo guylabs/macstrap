@@ -5,5 +5,8 @@ set -e
 rm -rf ~/.macstrap/macstrap.cfg
 cp ~/.macstrap/test/macstrap-test.cfg ~/.macstrap/macstrap.cfg
 
+# Uninstall preinstalled brew packages from Travis CI
+brew uninstall postgis postgresql
+
 # Start with the installation
 macstrap install
