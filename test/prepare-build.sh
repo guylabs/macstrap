@@ -5,8 +5,11 @@ set -e
 rm -rf ~/.macstrap/macstrap.cfg
 cp ~/.macstrap/test/macstrap-test.cfg ~/.macstrap/macstrap.cfg
 
+# List all preinstalled brew packages on Travis CI
+brew deps --include-build --tree $(brew leaves)
+
 # Uninstall preinstalled brew packages from Travis CI
-brew uninstall postgis postgresql
+brew uninstall postgis
 
 # Start with the installation
 macstrap install
