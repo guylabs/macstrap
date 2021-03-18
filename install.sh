@@ -31,7 +31,7 @@ echo
 # Check for homebrew
 if test ! "$(hash brew)"; then
   echo "Installing homebrew ..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
   echo "Updating homebrew ..."
   brew update
