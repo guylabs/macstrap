@@ -32,6 +32,7 @@ echo
 if test ! "$(hash brew)"; then
   echo "Installing homebrew ..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(brew --prefix)/bin/brew shellenv"
 else
   echo "Updating homebrew ..."
   brew update
