@@ -10,6 +10,7 @@ brew deps --include-build --tree $(brew leaves)
 
 # Uninstall preinstalled brew packages from Travis CI
 brew uninstall postgis
+brew uninstall postgres
 
 # Start with the installation
 macstrap install
