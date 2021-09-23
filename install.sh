@@ -76,41 +76,26 @@ printf "Symlinked \033[1m%s/macstrap\033[0m to \033[1m%s/macstrap/macstrap.sh\03
 # Setup the configuration if not already existent
 if [ ! -e "$conf/macstrap.cfg" ]; then
 
-  echo
-  printf "\033[1mPlease select how to configure macstrap\033[0m:\n"
-  echo "[1] Get the configuration from the default macstrap configuration GIT repository (no versioning support)"
-  echo "[2] Get the configuration from a custom GIT repository"
-  echo
-  printf "Enter your decision: "
-  echo
-
   # create the temporary directory to clone or copy the configuration
   mkdir -p "$conf"
   cd "$conf"
 
-  # read the option and execute the according task
-  if [ $# -eq 0 ]; then
-    read -r configureMacstrapOption
-    case $configureMacstrapOption in
-        "1")
-            echo "Cloning the configuration from the default macstrap configuration GIT repository ..."
-            git clone https://github.com/guylabs/macstrap-config.git $conf
-            ;;
-        "2")
-            echo
-            printf "\033[1mPlease enter the GIT repository URL where the macstrap configuration resides\033[0m:"
-            read -r customGitUrl
-            git clone "$customGitUrl" "$conf"
-            ;;
-        *)
-            echo "No option selected. Cloning the configuration from the default macstrap configuration GIT repository ..."
-            git clone https://github.com/guylabs/macstrap-config.git "$conf"
-            ;;
-    esac
+  echo
+  printf "\033[1mPlease provide the configuration for macstrap\033[0m:\n"
+  echo "  The configuration of macstrap is based on a GIT repository. You can enter a custom HTTPS URL which points to a GIT repository,"
+  echo "  or do not provide a URL and the default GIT repository is used instead: https://github.com/guylabs/macstrap-config.git"
+  echo
+  echo "  When using a secured Git repository and you configured 2 factor authentication, use the given access token as password when requested to enter the credentials."
+  echo 
+  printf "Configuration GIT repository HTTPS URL: "
+  echo
 
+  read -r customGitUrl
+
+  if [ -z "$customGitUrl" ]; then
+    git clone https://github.com/guylabs/macstrap-config.git $conf
   else
-    echo "Cloning the configuration from the given macstrap configuration GIT repository: $1"
-    git clone "$1" "$conf"
+    git clone "$customGitUrl" "$conf"
   fi
 
 else
