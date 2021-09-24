@@ -80,24 +80,29 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
   mkdir -p "$conf"
   cd "$conf"
 
-  echo
-  printf "\033[1mPlease provide the configuration for macstrap\033[0m:\n"
-  echo "  The configuration of macstrap is based on a GIT repository. You can enter a custom HTTPS URL which points to a GIT repository,"
-  echo "  or do not provide a URL and the default GIT repository is used instead: https://github.com/guylabs/macstrap-config.git"
-  echo
-  echo "  When using a secured Git repository and you configured 2 factor authentication, use the given access token as password when requested to enter the credentials."
-  echo 
-  printf "Configuration GIT repository HTTPS URL: "
-  echo
+  if [ -z "$1" ]; then
 
-  read -r customGitUrl
+    echo
+    printf "\033[1mPlease provide the configuration for macstrap\033[0m:\n"
+    echo "  The configuration of macstrap is based on a GIT repository. You can enter a custom HTTPS URL which points to a GIT repository,"
+    echo "  or do not provide a URL and the default GIT repository is used instead: https://github.com/guylabs/macstrap-config.git"
+    echo
+    echo "  When using a secured Git repository and you configured 2 factor authentication, use the given access token as password when requested to enter the credentials."
+    echo 
+    printf "Configuration GIT repository HTTPS URL: "
+    echo
 
-  if [ -z "$customGitUrl" ]; then
-    git clone https://github.com/guylabs/macstrap-config.git $conf
+    read -r customGitUrl
+
+    if [ -z "$customGitUrl" ]; then
+      git clone https://github.com/guylabs/macstrap-config.git "$conf"
+    else
+      git clone "$customGitUrl" "$conf"
+    fi
   else
-    git clone "$customGitUrl" "$conf"
+    printf "Unattended installation with configuration GIT repository: \033[1m%s\033[0m\n" "$1"
+    git clone "$1" "$conf"
   fi
-
 else
   printf "Configuration folder \033[1m%s\033[0m and \033[1m%s/macstrap.cfg\033[0m file already exists.\n" "$conf" "$conf"
 fi
