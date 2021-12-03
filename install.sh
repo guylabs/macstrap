@@ -11,6 +11,8 @@ echo "# Installing/updating macstrap ... #"
 echo "####################################"
 echo
 
+defaultConfigGitRepositoryUrl="https://github.com/guylabs/macstrap-config.git"
+
 # Set the paths
 dirname=$(pwd)
 lib="/usr/local/lib"
@@ -91,7 +93,7 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
     echo
     printf "\033[1mPlease provide the configuration for macstrap\033[0m:\n"
     echo "  The configuration of macstrap is based on a GIT repository. You can enter a custom HTTPS URL which points to a GIT repository,"
-    echo "  or do not provide a URL and the default GIT repository is used instead: https://github.com/guylabs/macstrap-config.git"
+    echo "  or do not provide a URL and the default GIT repository is used instead: $defaultConfigGitRepositoryUrl"
     echo
     echo "  When using a secured Git repository and you configured 2 factor authentication, use the given access token as password when requested to enter the credentials."
     echo 
@@ -101,7 +103,9 @@ if [ ! -e "$conf/macstrap.cfg" ]; then
     read -r customGitUrl
 
     if [ -z "$customGitUrl" ]; then
-      git clone https://github.com/guylabs/macstrap-config.git "$conf"
+      printf "Using default GIT repository: $defaultConfigGitRepositoryUrl"
+      echo
+      git clone "$defaultConfigGitRepositoryUrl" "$conf"
     else
       git clone "$customGitUrl" "$conf"
     fi
