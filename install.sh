@@ -32,7 +32,13 @@ echo
 if test ! "$(hash brew)"; then
   echo "Installing homebrew ..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(brew --prefix)/bin/brew shellenv"
+
+  # If M1 Mac
+  if [[ `uname -m` == 'arm64' ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    eval "$(brew --prefix)/bin/brew shellenv"
+  fi
 else
   echo "Updating homebrew ..."
   brew update
