@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-. utils.sh
 
 # macstrap main
 main() {
@@ -8,6 +7,7 @@ main() {
   # load the version
   macstrapInstallFolder="$(dirname "$(realpath "$0")")"
   . "$macstrapInstallFolder/version.sh"
+  . "$macstrapInstallFolder/utils.sh"
 
   # global variables
   export macstrapVersion="$version"
