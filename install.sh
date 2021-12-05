@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 . version.sh
+. utils.sh
 
 # Echo banner
 . banner.sh
@@ -35,8 +36,7 @@ if test ! "$(hash brew)"; then
   echo "Installing homebrew ..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  # If M1 Mac
-  if [[ `uname -m` == 'arm64' ]]; then
+  if isArmArchitecture; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
   else
     eval "$(brew --prefix)/bin/brew shellenv"

@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+. utils.sh
 
 # macstrap main
 main() {
