@@ -59,9 +59,6 @@ brew tap homebrew/cask-versions
 # Tap the fonts
 brew tap homebrew/cask-fonts
 
-# Tap the drivers
-brew tap homebrew/cask-drivers
-
 # Remove existing macstrap if it exists
 if [ -d "$lib/${PWD##*/}" ]; then
   rm -rf "${lib:?}/${PWD##*/}"
