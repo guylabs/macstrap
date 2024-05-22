@@ -53,12 +53,6 @@ echo "Installing homebrew services, versions, fonts and drivers ..."
 # Tap the services
 brew tap homebrew/services
 
-# Tap alternative versions
-brew tap homebrew/cask-versions
-
-# Tap the fonts
-brew tap homebrew/cask-fonts
-
 # Remove existing macstrap if it exists
 if [ -d "$lib/${PWD##*/}" ]; then
   rm -rf "${lib:?}/${PWD##*/}"
