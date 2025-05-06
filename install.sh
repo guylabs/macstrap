@@ -46,13 +46,6 @@ else
   brew update
 fi
 
-# Install homebrew cask
-echo
-echo "Installing homebrew services, versions, fonts and drivers ..."
-
-# Tap the services
-brew tap homebrew/services
-
 # Remove existing macstrap if it exists
 if [ -d "$lib/${PWD##*/}" ]; then
   rm -rf "${lib:?}/${PWD##*/}"
